@@ -118,9 +118,9 @@ class XP3FileInfo:
             = cls.info_chunk.unpack(buffer.read(30))
         encrypted = bool(flags & XP3FileIsEncrypted)
 
-        # 2 bytes per character and 2 bytes null-terminator
-        file_path, = struct.unpack('<' + (str(file_path_length * 2) + 's') + 'xx',
-                                   buffer.read(2 + file_path_length * 2))
+        # 2 bytes per character
+        file_path, = struct.unpack('<' + (str(file_path_length * 2) + 's'),
+                                   buffer.read(file_path_length * 2))
         file_path = file_path.decode('utf-16le')
 
         if buffer.tell() != start + size:
@@ -134,7 +134,7 @@ class XP3FileInfo:
 
         return b'info' \
                + self.info_chunk.pack(size, flags, self.uncompressed_size, self.compressed_size, len(self.file_path)) \
-               + self.file_path.encode('utf-16le') + b'\x00\x00'
+               + self.file_path.encode('utf-16le')
 
     def __repr__(self):
         return "<XP3FileInfo encrypted={}, uncompressed_size={}, compressed_size={}, file_path='{}'"\

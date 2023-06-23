@@ -32,6 +32,8 @@ class XP3File(XP3FileEntry):
 
     def read(self, encryption_type='none', raw=False):
         """Reads the file from buffer and return it's data"""
+        data_list = []
+        
         for segment in self.segm:
             self.buffer.seek(segment.offset)
             data = self.buffer.read(segment.compressed_size)
@@ -48,6 +50,10 @@ class XP3File(XP3FileEntry):
                 self.xor(file_buffer, self.adler32, encryption_type, self.use_numpy)
                 data = file_buffer.getvalue()
                 file_buffer.close()
+
+            data_list.append(data)
+
+        data = b''.join(data_list)
         return data
 
     def extract(self, to='', name=None, encryption_type='none', raw=False):
