@@ -1,6 +1,6 @@
 ## Fixed version
 
-This forked version has some modification to make things work.
+This forked version has some modifications to make things work.
 
 ### Changes
 
