@@ -4,6 +4,7 @@ from io import BufferedReader
 from collections import namedtuple
 from datetime import datetime
 from .constants import XP3FileIsEncrypted
+import os
 
 
 class XP3FileEncryption:
@@ -122,6 +123,8 @@ class XP3FileInfo:
         file_path, = struct.unpack('<' + (str(file_path_length * 2) + 's'),
                                    buffer.read(file_path_length * 2))
         file_path = file_path.decode('utf-16le')
+        if(os.name == "posix"):
+            file_path = file_path.replace("\\", "/")
 
         if buffer.tell() != start + size:
             raise AssertionError('Buffer position {}, expected {}'.format(buffer.tell(),
