@@ -6,6 +6,7 @@ This forked version has some modifications to make things work.
 
 - Removed 2 zero-bytes padding for each filenames.
 - Applied segmentation merging if files are separated in two or more segments.
+- Fixed incorrect paths when extracting to Linux
 
 ## Original README
 
